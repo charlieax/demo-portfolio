@@ -1,0 +1,20 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.fontLigatures": false,
+  "terminal.integrated.fontFamily": "CaskaydiaCove Nerd Font",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "editor.tabSize": 2,
+  "aws.telemetry": false,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript", "typescript"],
+  "search.exclude": {
+    "**/.sst": true
+  }
+}

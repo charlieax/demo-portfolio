@@ -1,0 +1,9 @@
+{
+  "name": "@portfolio-app/services",
+  "version": "0.0.0",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "sst": "^2.5.1"
+  }
+}

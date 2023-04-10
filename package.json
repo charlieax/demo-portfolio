@@ -1,0 +1,29 @@
+{
+  "name": "portfolio-app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "sst dev --stage $AWS_PROFILE",
+    "sst:build": "sst build",
+    "sst:deploy": "sst deploy",
+    "sst:remove": "sst remove",
+    "sst:console": "sst console",
+    "test": "vitest run --coverage",
+    "check:types": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.3",
+    "@vitest/coverage-c8": "^0.30.0",
+    "aws-cdk-lib": "2.72.1",
+    "constructs": "10.1.156",
+    "sst": "^2.5.1",
+    "typescript": "^5.0.4",
+    "vite-tsconfig-paths": "^4.0.8",
+    "vitest": "^0.30.0"
+  },
+  "workspaces": [
+    "web",
+    "src/services"
+  ]
+}

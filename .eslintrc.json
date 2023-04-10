@@ -1,0 +1,5 @@
+{
+  "extends": "serverless-stack",
+  "root": true,
+  "ignorePatterns": [".sst/*"]
+}

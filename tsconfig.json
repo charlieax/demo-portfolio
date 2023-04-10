@@ -1,0 +1,10 @@
+{
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "exclude": ["src/services"],
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@stacks/*": ["stacks/*"]
+    }
+  }
+}
