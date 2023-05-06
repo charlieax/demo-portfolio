@@ -1,0 +1,9 @@
+{
+  "name": "core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "sst": "^2.5.1"
+  }
+}

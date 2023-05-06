@@ -1,6 +1,6 @@
 import { NextjsSite, StackContext } from 'sst/constructs'
 
-export function Site({ stack }: StackContext) {
+export function Web({ stack }: StackContext) {
   const site = new NextjsSite(stack, 'site', {
     customDomain: `charlie.${process.env.HOSTED_ZONE}`,
   })

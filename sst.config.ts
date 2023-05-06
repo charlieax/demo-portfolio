@@ -1,15 +1,15 @@
 import { SSTConfig } from 'sst'
 
-import { Site } from '@stacks/Site'
+import { Web } from '@stacks/Web'
 
 export default {
-  config(_input) {
+  config() {
     return {
       name: 'portfolio-app',
       region: 'eu-west-2',
     }
   },
   stacks(app) {
-    app.stack(Site)
+    app.stack(Web)
   },
 } satisfies SSTConfig

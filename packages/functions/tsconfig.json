@@ -1,10 +1,10 @@
 {
   "extends": "@tsconfig/node16/tsconfig.json",
-  "exclude": ["node_modules", "*.d.ts"],
   "compilerOptions": {
+    "module": "esnext",
     "baseUrl": ".",
     "paths": {
-      "@stacks/*": ["stacks/*"]
+      "@core/*": ["../core/src/*"]
     }
   }
 }
