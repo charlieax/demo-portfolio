@@ -9,12 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.6",
-    "@emotion/server": "^11.10.0",
-    "@emotion/styled": "^11.10.6",
-    "@fontsource/offside": "^4.5.8",
+    "@emotion/react": "^11.11.0",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/offside": "^5.0.0",
     "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.11.16",
+    "@mui/material": "^5.13.1",
     "next": "^13.3.0",
     "next-seo": "^6.0.0",
     "react": "18.2.0",
@@ -23,10 +23,10 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
-    "@types/react": "18.0.33",
-    "@types/react-dom": "18.0.11",
-    "eslint": "8.38.0",
-    "eslint-config-next": "13.3.0",
-    "sst": "^2.5.1"
+    "@types/react": "18.2.6",
+    "@types/react-dom": "18.2.4",
+    "eslint": "8.41.0",
+    "eslint-config-next": "13.4.3",
+    "sst": "^2.8.27"
   }
 }

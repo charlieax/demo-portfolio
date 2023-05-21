@@ -4,6 +4,6 @@
   "private": true,
   "type": "module",
   "devDependencies": {
-    "sst": "^2.5.1"
+    "sst": "^2.8.27"
   }
 }

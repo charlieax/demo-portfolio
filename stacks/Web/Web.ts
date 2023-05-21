@@ -1,11 +1,11 @@
 import { NextjsSite, StackContext } from 'sst/constructs'
 
 export function Web({ stack }: StackContext) {
-  const site = new NextjsSite(stack, 'site', {
+  const web = new NextjsSite(stack, 'web', {
     customDomain: `charlie.${process.env.HOSTED_ZONE}`,
   })
 
   stack.addOutputs({
-    SiteUrl: site.url || 'http://localhost:3000',
+    SiteUrl: web.url || 'http://localhost:3000',
   })
 }
