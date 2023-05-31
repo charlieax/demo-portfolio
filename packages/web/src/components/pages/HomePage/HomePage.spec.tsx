@@ -4,12 +4,8 @@ import { expect } from 'vitest'
 import { HomePage } from './HomePage'
 
 describe('HomePage', () => {
-  it('renders hello', () => {
+  it('renders title', () => {
     render(<HomePage />)
-
-    screen.debug()
-
-    // check if App components renders headline
     expect(screen.getByText('Hello World')).toBeDefined()
   })
 })
