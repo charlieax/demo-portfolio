@@ -6,6 +6,6 @@ import { HomePage } from './HomePage'
 describe('HomePage', () => {
   it('renders title', () => {
     render(<HomePage />)
-    expect(screen.getByText('Hello World')).toBeDefined()
+    expect(screen.getByText('Game Of Life')).toBeDefined()
   })
 })
