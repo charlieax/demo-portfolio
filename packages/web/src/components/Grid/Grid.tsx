@@ -94,7 +94,7 @@ export function Grid() {
       <Button onClick={advanceNodes} variant="contained" sx={{ width: 100 }}>
         Update
       </Button>
-      <Box width="50vw" onClick={clickNode} ref={boxRef}>
+      <Box width="40vw" onClick={clickNode} ref={boxRef}>
         <svg viewBox={`0 0 ${MAX_WIDTH} ${MAX_HEIGHT}`}>
           <g>
             {gridSprings.map(({ x2 }, index) => (

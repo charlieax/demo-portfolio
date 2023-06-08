@@ -65,7 +65,7 @@ function getAliveNodes(
         if (
           prevNodes
             .map((el) => JSON.stringify(el))
-            .includes(JSON.stringify(val))
+            .includes(JSON.stringify(val.map((x) => x * 10)))
         ) {
           return true
         }
