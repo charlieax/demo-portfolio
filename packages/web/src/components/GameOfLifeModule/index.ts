@@ -1,0 +1,1 @@
+export { GameOfLifeModule } from './GameOfLifeModule'

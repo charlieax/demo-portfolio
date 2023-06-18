@@ -6,9 +6,7 @@ export function updateNodes(
   maxX: number | undefined = undefined,
   maxY: number | undefined = undefined
 ) {
-  const rawNodes = nodesArr.map((node) => node.map((x) => x / 10))
-
-  const nodesToCheck = getNodesToCheck(rawNodes)
+  const nodesToCheck = getNodesToCheck(nodesArr)
 
   const neighbourNodes = nodesToCheck.map((node) =>
     countNeighbours(nodesToCheck, node)
@@ -16,9 +14,7 @@ export function updateNodes(
 
   const aliveNodes = getAliveNodes(nodesToCheck, neighbourNodes, nodesArr)
 
-  const rawUpdateNodes = trimEdges(aliveNodes, maxX, maxY)
-
-  return rawUpdateNodes.map((node) => node.map((x) => x * 10))
+  return trimEdges(aliveNodes, maxX, maxY)
 }
 
 function getNodesToCheck(nodes: Nodes): Nodes {
@@ -27,15 +23,15 @@ function getNodesToCheck(nodes: Nodes): Nodes {
   nodes.forEach((el) => {
     nodesToCheck = [
       ...nodesToCheck,
-      [el[0] - 1, el[1] - 1],
-      [el[0] - 1, el[1]],
-      [el[0] - 1, el[1] + 1],
-      [el[0], el[1] - 1],
+      [el[0] - 10, el[1] - 10],
+      [el[0] - 10, el[1]],
+      [el[0] - 10, el[1] + 10],
+      [el[0], el[1] - 10],
       [el[0], el[1]],
-      [el[0], el[1] + 1],
-      [el[0] + 1, el[1] - 1],
-      [el[0] + 1, el[1]],
-      [el[0] + 1, el[1] + 1],
+      [el[0], el[1] + 10],
+      [el[0] + 10, el[1] - 10],
+      [el[0] + 10, el[1]],
+      [el[0] + 10, el[1] + 10],
     ]
   })
 
@@ -65,7 +61,7 @@ function getAliveNodes(
         if (
           prevNodes
             .map((el) => JSON.stringify(el))
-            .includes(JSON.stringify(val.map((x) => x * 10)))
+            .includes(JSON.stringify(val))
         ) {
           return true
         }
