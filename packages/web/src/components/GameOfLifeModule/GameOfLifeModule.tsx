@@ -39,11 +39,10 @@ export function GameOfLifeModule() {
     if (
       nodes
         .map((el) => JSON.stringify(el.slice(0, -1)))
-        .includes(JSON.stringify(node.slice(0, -1)))
+        .includes(JSON.stringify(node))
     ) {
       updatedNodes = nodes.filter(
-        (el) =>
-          JSON.stringify(el.slice(0, -1)) != JSON.stringify(node.slice(0, -1))
+        (el) => JSON.stringify(el.slice(0, -1)) != JSON.stringify(node)
       )
     } else {
       updatedNodes = [...nodes, [...node, 1]]
