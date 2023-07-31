@@ -2,86 +2,127 @@ import ChangeCircleOutlinedIcon from '@mui/icons-material/ChangeCircleOutlined'
 import NextPlanOutlinedIcon from '@mui/icons-material/NextPlanOutlined'
 import PauseCircleOutlinedIcon from '@mui/icons-material/PauseCircleOutlined'
 import PlayCircleOutlinedIcon from '@mui/icons-material/PlayCircleOutlined'
-import { Slider, Stack, Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 
+import { ForkHistory } from '@components/ForkHistory'
 import { Grid } from '@components/Grid'
-import { Node, updateNodes } from '@lib/gameOfLife'
+import {
+  updateNodes,
+  type Node,
+  type Nodes,
+  type NodesHistory,
+} from '@lib/gameOfLife'
 
-const aliveNodes = [
-  [20, 30, 1],
-  [70, 30, 1],
-  [20, 50, 1],
-  [30, 60, 1],
-  [40, 60, 1],
-  [50, 60, 1],
-  [60, 60, 1],
-  [70, 50, 1],
+const initialNodes = [
+  {
+    node: [2, 3],
+    initialisedOnStep: true,
+  },
+  {
+    node: [7, 3],
+    initialisedOnStep: true,
+  },
+  {
+    node: [2, 5],
+    initialisedOnStep: true,
+  },
+  {
+    node: [3, 6],
+    initialisedOnStep: true,
+  },
+  {
+    node: [4, 6],
+    initialisedOnStep: true,
+  },
+  {
+    node: [5, 6],
+    initialisedOnStep: true,
+  },
+  {
+    node: [6, 6],
+    initialisedOnStep: true,
+  },
+  {
+    node: [7, 5],
+    initialisedOnStep: true,
+  },
 ]
 
+type GameOfLifeModuleProps = {}
+
 export function GameOfLifeModule() {
-  const [nodes, setNodes] = useState(aliveNodes)
+  const [nodes, setNodes] = useState(initialNodes)
   const [step, setStep] = useState(0)
-  let [historyNodes, setHistoryNodes] = useState([nodes])
+  const [fork, setFork] = useState(0)
+  const [nodesHistory, setNodesHistory] = useState<NodesHistory>([
+    [initialNodes],
+  ])
 
   const [delay, setDelay] = useState(1000)
   const [isRunning, setIsRunning] = useState(false)
 
   useInterval(
     () => {
-      stepNodes()
+      handleStepNodes()
     },
-    isRunning ? delay : null
+    isRunning ? delay : null,
   )
 
-  function toggleNode(node: Node) {
-    let updatedNodes = nodes
+  function handleToggleNode(node: Node) {
+    let updatedNodes: Nodes
     if (
-      nodes
-        .map((el) => JSON.stringify(el.slice(0, -1)))
-        .includes(JSON.stringify(node))
+      nodes.map((el) => JSON.stringify(el.node)).includes(JSON.stringify(node))
     ) {
       updatedNodes = nodes.filter(
-        (el) => JSON.stringify(el.slice(0, -1)) != JSON.stringify(node)
+        (el) => JSON.stringify(el.node) != JSON.stringify(node),
       )
     } else {
-      updatedNodes = [...nodes, [...node, 1]]
+      updatedNodes = [...nodes, { node, initialisedOnStep: true }]
     }
     setNodes(updatedNodes)
-    if (step < historyNodes.length) {
-      setHistoryNodes([...historyNodes.slice(0, step), updatedNodes])
-    }
   }
 
-  function stepNodes() {
-    const updatedNodes = updateNodes(
-      nodes.map((el) => el.slice(0, -1)),
-      100,
-      100
+  function handleStepNodes() {
+    const newForkRequired =
+      JSON.stringify(nodes) !== JSON.stringify(nodesHistory[step][fork])
+
+    const nodesHistoryCurrentStep = newForkRequired
+      ? [...nodesHistory[step].slice(0, fork + 1), nodes]
+      : nodesHistory[step]
+
+    const nodesHistoryUpdateStep = nodesHistoryCurrentStep.map((stepNodes) =>
+      updateNodes(
+        stepNodes.map((el) => el.node),
+        10,
+        10,
+      ).map((el) => ({ node: el, initialisedOnStep: false })),
     )
+
+    setNodesHistory([
+      ...nodesHistory.slice(0, step),
+      nodesHistoryCurrentStep,
+      nodesHistoryUpdateStep,
+    ])
+    setNodes(nodesHistoryUpdateStep[newForkRequired ? fork + 1 : fork])
     setStep(step + 1)
-    setNodes(updatedNodes.map((el) => [...el, 0]))
+    if (newForkRequired) {
+      setFork(fork + 1)
+    }
   }
 
-  function refreshNodes() {
-    setNodes(aliveNodes)
+  function handleRefreshNodes() {
+    setNodes(initialNodes)
     setStep(0)
-    setHistoryNodes([aliveNodes])
+    setFork(0)
+    setNodesHistory([[initialNodes]])
   }
 
-  function revertStep(e: Event, v: Number | Number[]) {
-    if ((v as number) <= historyNodes.length) {
-      setStep(v as number)
-    }
+  function handleSetNodes(step: number, fork: number) {
+    setNodes(nodesHistory[step][fork])
+    setStep(step)
+    setFork(fork)
   }
-
-  useEffect(() => {
-    if (step < historyNodes.length) {
-      setNodes(historyNodes[step])
-    } else {
-      setHistoryNodes([...historyNodes, nodes])
-    }
-  }, [step])
 
   return (
     <Stack spacing={2} alignItems="center" width="40vw">
@@ -90,7 +131,7 @@ export function GameOfLifeModule() {
           <Typography>Step: {step}</Typography>
         </Stack>
         <Stack direction="row" spacing={1}>
-          <NextPlanOutlinedIcon onClick={stepNodes} fontSize="large" />
+          <NextPlanOutlinedIcon onClick={handleStepNodes} fontSize="large" />
           {isRunning ? (
             <PauseCircleOutlinedIcon
               onClick={() => setIsRunning(!isRunning)}
@@ -102,21 +143,21 @@ export function GameOfLifeModule() {
               fontSize="large"
             />
           )}
-          <ChangeCircleOutlinedIcon onClick={refreshNodes} fontSize="large" />
+          <ChangeCircleOutlinedIcon
+            onClick={handleRefreshNodes}
+            fontSize="large"
+          />
         </Stack>
       </Stack>
-      <Grid nodes={nodes} toggleNode={toggleNode} />
-      {historyNodes.length > 1 && (
-        <Slider
-          min={0}
-          max={historyNodes.length - 1}
-          step={1}
-          value={step}
-          onChange={revertStep}
-          marks={true}
-          valueLabelDisplay="off"
-        />
-      )}
+
+      <Grid nodes={nodes} onToggleNode={handleToggleNode} />
+      <Typography variant="h6">History</Typography>
+      <ForkHistory
+        nodesHistory={nodesHistory}
+        step={step}
+        fork={fork}
+        onSetNodes={handleSetNodes}
+      />
     </Stack>
   )
 }

@@ -13,7 +13,7 @@ if [ ! -d ~/.aws ]; then
 		region = eu-west-2
 		output = yaml
 		sso_session = $AWS_PROFILE
-		sso_start_url = https://metapraxis.awsapps.com/start
+		sso_start_url = https://charlieaxtell.awsapps.com/start
 		sso_region = eu-west-2
 		sso_account_id =
 		sso_role_name =

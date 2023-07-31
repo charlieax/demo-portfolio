@@ -1,15 +1,12 @@
 export type Node = number[]
-export type Nodes = Node[]
+export type Nodes = { node: Node; initialisedOnStep: boolean }[]
+export type NodesHistory = Nodes[][]
 
-export function updateNodes(
-  nodesArr: Nodes,
-  maxX: number | undefined = undefined,
-  maxY: number | undefined = undefined
-) {
+export function updateNodes(nodesArr: Node[], maxX?: number, maxY?: number) {
   const nodesToCheck = getNodesToCheck(nodesArr)
 
   const neighbourNodes = nodesToCheck.map((node) =>
-    countNeighbours(nodesToCheck, node)
+    countNeighbours(nodesToCheck, node),
   )
 
   const aliveNodes = getAliveNodes(nodesToCheck, neighbourNodes, nodesArr)
@@ -17,28 +14,28 @@ export function updateNodes(
   return trimEdges(aliveNodes, maxX, maxY)
 }
 
-function getNodesToCheck(nodes: Nodes): Nodes {
-  let nodesToCheck: Nodes = []
+function getNodesToCheck(nodes: Node[]): Node[] {
+  let nodesToCheck: Node[] = []
 
   nodes.forEach((el) => {
     nodesToCheck = [
       ...nodesToCheck,
-      [el[0] - 10, el[1] - 10],
-      [el[0] - 10, el[1]],
-      [el[0] - 10, el[1] + 10],
-      [el[0], el[1] - 10],
+      [el[0] - 1, el[1] - 1],
+      [el[0] - 1, el[1]],
+      [el[0] - 1, el[1] + 1],
+      [el[0], el[1] - 1],
       [el[0], el[1]],
-      [el[0], el[1] + 10],
-      [el[0] + 10, el[1] - 10],
-      [el[0] + 10, el[1]],
-      [el[0] + 10, el[1] + 10],
+      [el[0], el[1] + 1],
+      [el[0] + 1, el[1] - 1],
+      [el[0] + 1, el[1]],
+      [el[0] + 1, el[1] + 1],
     ]
   })
 
   return nodesToCheck
 }
 
-function countNeighbours(nodesToCheck: Nodes, node: Node): number {
+function countNeighbours(nodesToCheck: Node[], node: Node): number {
   return nodesToCheck.reduce((count, val) => {
     if (JSON.stringify(node) === JSON.stringify(val)) {
       return (count += 1)
@@ -48,9 +45,9 @@ function countNeighbours(nodesToCheck: Nodes, node: Node): number {
 }
 
 function getAliveNodes(
-  nodesArr: Nodes,
+  nodesArr: Node[],
   neighbourArr: number[],
-  prevNodes: Nodes
+  prevNodes: Node[],
 ) {
   return nodesArr
     .filter((val, i) => {
@@ -68,7 +65,7 @@ function getAliveNodes(
       }
       return false
     })
-    .reduce<Nodes>((nodes, node) => {
+    .reduce<Node[]>((nodes, node) => {
       if (
         nodes.map((el) => JSON.stringify(el)).includes(JSON.stringify(node))
       ) {
@@ -78,13 +75,9 @@ function getAliveNodes(
     }, [])
 }
 
-function trimEdges(
-  nodesArr: Nodes,
-  maxX: number | undefined,
-  maxY: number | undefined
-) {
+function trimEdges(nodesArr: Node[], maxX?: number, maxY?: number) {
   if (maxX || maxY) {
-    return nodesArr.reduce<Nodes>((nodes, node) => {
+    return nodesArr.reduce<Node[]>((nodes, node) => {
       if (maxX) {
         if (node[0] < 0 || node[0] >= maxX) {
           return nodes

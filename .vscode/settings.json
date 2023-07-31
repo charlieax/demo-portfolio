@@ -13,7 +13,6 @@
     "source.fixAll.eslint": true,
     "source.organizeImports": true
   },
-  "eslint.packageManager": "yarn",
   "eslint.validate": ["javascript", "typescript"],
   "search.exclude": {
     "**/.sst": true,

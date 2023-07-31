@@ -13,10 +13,10 @@ const MAX_HEIGHT = 100 + OFFSET * 2
 
 interface GridProps {
   nodes: Nodes
-  toggleNode: (node: Node) => void
+  onToggleNode: (node: Node) => void
 }
 
-export function Grid({ nodes, toggleNode }: GridProps) {
+export function Grid({ nodes, onToggleNode }: GridProps) {
   const boxRef = useRef<HTMLInputElement>()
   const [initialRender, setInitialRender] = useState(true)
 
@@ -44,18 +44,18 @@ export function Grid({ nodes, toggleNode }: GridProps) {
   })
 
   function clickNode(e: React.MouseEvent<HTMLDivElement, MouseEvent>): void {
-    const clickedPositionX = e.clientX - boxRef.current?.offsetLeft!
-    const clickedPositionY = e.clientY - boxRef.current?.offsetTop!
+    const clickedPositionX = e.pageX - boxRef.current?.offsetLeft!
+    const clickedPositionY = e.pageY - boxRef.current?.offsetTop!
     const clickedNodeRawX =
       (clickedPositionX * MAX_WIDTH) / boxRef.current?.clientWidth!
     const clickedNodeRawY =
       (clickedPositionY * MAX_HEIGHT) / boxRef.current?.clientHeight!
     const clickedNode = [
-      10 * Math.floor(clickedNodeRawX / 10),
-      10 * Math.floor(clickedNodeRawY / 10),
+      Math.floor(clickedNodeRawX / 10),
+      Math.floor(clickedNodeRawY / 10),
     ]
 
-    toggleNode(clickedNode)
+    onToggleNode(clickedNode)
   }
 
   useEffect(() => {
@@ -89,17 +89,17 @@ export function Grid({ nodes, toggleNode }: GridProps) {
             />
           ))}
         </g>
-        {transition((style, node, _, index) => (
+        {transition((style, { node, initialisedOnStep }, _, index) => (
           <animated.rect
             key={`node-${index}`}
             width={10}
             height={10}
-            fill={node[2] === 0 ? 'currentColor' : 'darkBlue'}
+            fill={initialisedOnStep ? 'darkBlue' : 'currentColor'}
             style={{
               ...style,
               transformOrigin: `${5 + OFFSET * 2}px ${5 + OFFSET * 2}px`,
-              transform: `translate(${node[0] + OFFSET}px, ${
-                node[1] + OFFSET
+              transform: `translate(${node[0] * 10 + OFFSET}px, ${
+                node[1] * 10 + OFFSET
               }px)`,
             }}
           />
