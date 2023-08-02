@@ -43,7 +43,6 @@ export function Links({
       <svg viewBox={`0 0 ${MAX_WIDTH} ${MAX_HEIGHT}`}>
         {numberArr.map((_, index) => (
           <animated.path
-            style={{ strokeDashoffset }}
             d={`
           M${OFFSET} ${index * HEIGHT + OFFSET}
           H${WIDTH + OFFSET}
@@ -53,22 +52,25 @@ export function Links({
             strokeWidth={STROKE_WIDTH}
             strokeDasharray={WIDTH + HEIGHT}
             strokeLinecap="round"
+            strokeDashoffset={strokeDashoffset}
+            aria-label={`link-step-${step}-fork-${index}`}
             key={`link-step-${step}-fork-${index}`}
           />
         ))}
         {fork && (
           <animated.path
-            style={{ strokeDashoffset: forkStrokeDashoffset }}
             d={`
           M${OFFSET} ${(numberArr.length - 1) * HEIGHT + OFFSET}
           c${WIDTH / 4} 0 ${(3 * WIDTH) / 8} 0 ${WIDTH / 2} ${HEIGHT / 2}
           s${WIDTH / 4} ${HEIGHT / 2} ${WIDTH / 2} ${HEIGHT / 2}
           `}
+            aria-label={`fork-${step}`}
             fill="none"
             stroke="currentColor"
             strokeWidth={STROKE_WIDTH}
             strokeDasharray={WIDTH + HEIGHT}
             strokeLinecap="round"
+            strokeDashoffset={forkStrokeDashoffset}
           />
         )}
       </svg>

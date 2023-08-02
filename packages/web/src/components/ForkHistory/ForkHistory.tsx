@@ -25,6 +25,7 @@ export function ForkHistory({
         {nodesHistory[0].map((_, forkIndex) => (
           <IconButton
             key={`node-step-0-fork-${forkIndex}`}
+            aria-label={`node-step-0-fork-${forkIndex}`}
             onClick={() => {
               onSetNodes(0, forkIndex)
             }}
@@ -56,6 +57,7 @@ export function ForkHistory({
               {stepNodes.map((_, forkIndex) => (
                 <IconButton
                   key={`node-step-${stepIndex + 1}-fork-${forkIndex}`}
+                  aria-label={`node-step-${stepIndex + 1}-fork-${forkIndex}`}
                   onClick={() => {
                     onSetNodes(stepIndex + 1, forkIndex)
                   }}
