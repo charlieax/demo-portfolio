@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "sst dev --stage $AWS_PROFILE",
+    "dev:api": "yarn dev",
+    "dev:web": "yarn workspace @portfolio-app/web dev",
     "sst:build": "sst build",
     "sst:deploy": "sst deploy",
     "sst:remove": "sst remove",
